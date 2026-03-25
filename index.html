@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilmaennustus</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Ilmaennustus</h1>
+    <p>Sisesta linna nimi ja vaata hetke ilma.</p>
+
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Näiteks Tallinn">
+      <button id="searchBtn">Näita ilma</button>
+    </div>
+
+    <div id="result" class="result hidden">
+      <h2 id="cityName"></h2>
+      <p><strong>Temperatuur:</strong> <span id="temperature"></span> °C</p>
+      <p><strong>Tuule kiirus:</strong> <span id="windspeed"></span> km/h</p>
+      <p><strong>Ilmakood:</strong> <span id="weathercode"></span></p>
+    </div>
+
+    <p id="error" class="error"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
