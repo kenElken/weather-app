@@ -21,9 +21,9 @@ function translateWeatherCode(code) {
     case 0:
       return "Selge";
     case 1:
-      return "Peamiselt selge";
+      return "Enamasti selge";
     case 2:
-      return "Osaliselt pilves";
+      return "Vahelduv pilvisus";
     case 3:
       return "Pilves";
     case 45:
@@ -58,7 +58,7 @@ async function getWeather() {
   result.classList.add("hidden");
 
   if (!city) {
-    error.textContent = "Palun sisesta linna nimi.";
+    error.textContent = "SISESTA LINNA NIMI!";
     return;
   }
 
