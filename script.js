@@ -2,7 +2,6 @@ const searchBtn = document.getElementById("searchBtn");
 const cityInput = document.getElementById("cityInput");
 const result = document.getElementById("result");
 const error = document.getElementById("error");
-const mapElement = document.getElementById("map");
 
 const cityNameEl = document.getElementById("cityName");
 const temperatureEl = document.getElementById("temperature");
@@ -56,14 +55,26 @@ function translateWeatherCode(code) {
   }
 }
 
+function initMap() {
+  map = L.map("map").setView([58.7, 25.0], 7);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
+}
+
 async function getWeather() {
   const city = cityInput.value.trim();
   error.textContent = "";
   result.classList.add("hidden");
-  mapElement.classList.add("hidden");
+
+  searchBtn.disabled = true;
+  searchBtn.textContent = "Laen andmeid...";
 
   if (!city) {
     error.textContent = "SISESTA LINNA NIMI!";
+    searchBtn.disabled = false;
+    searchBtn.textContent = "Näita ilma";
     return;
   }
 
@@ -75,6 +86,8 @@ async function getWeather() {
 
     if (!geoData.results || geoData.results.length === 0) {
       error.textContent = "Seda linna ei leitud.";
+      searchBtn.disabled = false;
+      searchBtn.textContent = "Näita ilma";
       return;
     }
 
@@ -93,26 +106,22 @@ async function getWeather() {
     weathercodeEl.textContent = translateWeatherCode(weatherData.current.weather_code);
 
     result.classList.remove("hidden");
-    mapElement.classList.remove("hidden");
 
-    if (!map) {
-      map = L.map("map").setView([lat, lon], 10);
+    map.setView([lat, lon], 10);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors"
-      }).addTo(map);
-
+    if (!marker) {
       marker = L.marker([lat, lon]).addTo(map);
     } else {
-      map.setView([lat, lon], 10);
       marker.setLatLng([lat, lon]);
     }
 
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 100);
-
+    searchBtn.disabled = false;
+    searchBtn.textContent = "Näita ilma";
   } catch (e) {
     error.textContent = "Andmete laadimine ebaõnnestus.";
+    searchBtn.disabled = false;
+    searchBtn.textContent = "Näita ilma";
   }
 }
+
+initMap();
