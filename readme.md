@@ -1,4 +1,5 @@
 Lihtne veebirakendus, mis kuvab valitud linna hetke ilma.
+(kaarti võib laadida natukene aega peale asukoha valimist)
 
 Rakenduses saab:
 
@@ -7,6 +8,7 @@ Rakenduses saab:
 - näha temperatuuri
 - näha tuule kiirust
 - näha ilmakirjeldust
+- näitab kaardi peal valitud asukohta
 
 Rakenduses on katutatud:
 
@@ -14,6 +16,7 @@ Rakenduses on katutatud:
 - CSS
 - JavaScript
 - Open-Meteo API
+- leaflet
 
 Tööpõhimõte:
 

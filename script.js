@@ -2,11 +2,15 @@ const searchBtn = document.getElementById("searchBtn");
 const cityInput = document.getElementById("cityInput");
 const result = document.getElementById("result");
 const error = document.getElementById("error");
+const mapElement = document.getElementById("map");
 
 const cityNameEl = document.getElementById("cityName");
 const temperatureEl = document.getElementById("temperature");
 const windspeedEl = document.getElementById("windspeed");
 const weathercodeEl = document.getElementById("weathercode");
+
+let map;
+let marker;
 
 searchBtn.addEventListener("click", getWeather);
 
@@ -56,6 +60,7 @@ async function getWeather() {
   const city = cityInput.value.trim();
   error.textContent = "";
   result.classList.add("hidden");
+  mapElement.classList.add("hidden");
 
   if (!city) {
     error.textContent = "SISESTA LINNA NIMI!";
@@ -88,6 +93,25 @@ async function getWeather() {
     weathercodeEl.textContent = translateWeatherCode(weatherData.current.weather_code);
 
     result.classList.remove("hidden");
+    mapElement.classList.remove("hidden");
+
+    if (!map) {
+      map = L.map("map").setView([lat, lon], 10);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors"
+      }).addTo(map);
+
+      marker = L.marker([lat, lon]).addTo(map);
+    } else {
+      map.setView([lat, lon], 10);
+      marker.setLatLng([lat, lon]);
+    }
+
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+
   } catch (e) {
     error.textContent = "Andmete laadimine ebaõnnestus.";
   }
